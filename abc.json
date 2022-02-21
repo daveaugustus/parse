@@ -1,0 +1,231 @@
+{
+    "meta": {
+        "stage_results": null,
+        "zip_file": "",
+        "unzip_folder": "/home/dave/Downloads/backup",
+        "server_id": "",
+        "migration_id": ""
+    },
+    "parsed_result": {
+        "orgs": null,
+        "users": [
+            {
+                "username": "davetweetlive",
+                "email": "",
+                "display_name": "",
+                "first_name": "",
+                "last_name": "",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 3
+            },
+            {
+                "username": "automate123456",
+                "email": "",
+                "display_name": "",
+                "first_name": "",
+                "last_name": "",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 3
+            },
+            {
+                "username": "pivotal",
+                "email": "root@localhost.localdomain",
+                "display_name": "Chef Server Superuser",
+                "first_name": "Chef",
+                "last_name": "Server",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 2
+            },
+            {
+                "username": "other-user7",
+                "email": "otheruser7@email.com",
+                "display_name": "other-user7",
+                "first_name": "",
+                "last_name": "",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 1
+            },
+            {
+                "username": "test-new-user",
+                "email": "test-new@email.com",
+                "display_name": "test-new-user",
+                "first_name": "",
+                "last_name": "",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 2
+            },
+            {
+                "username": "kallol",
+                "email": "kallol.roy@progress.com",
+                "display_name": "Kallol Roy",
+                "first_name": "Kallol",
+                "last_name": "Roy",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 2
+            },
+            {
+                "username": "test-user-2",
+                "email": "testuser2@email.com",
+                "display_name": "test user2",
+                "first_name": "test",
+                "last_name": "user2",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 1
+            },
+            {
+                "username": "other-user",
+                "email": "otheruser@email.com",
+                "display_name": "other user",
+                "first_name": "other",
+                "last_name": "user",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 1
+            },
+            {
+                "username": "other-user2",
+                "email": "otheruser2@email.com",
+                "display_name": "other user2",
+                "first_name": "other",
+                "last_name": "user2",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 1
+            },
+            {
+                "username": "test-user",
+                "email": "test@email.com",
+                "display_name": "test user",
+                "first_name": "test",
+                "last_name": "user",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 1
+            },
+            {
+                "username": "other-user3",
+                "email": "otheruser3@email.com",
+                "display_name": "other user3",
+                "first_name": "other",
+                "last_name": "user3",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 1
+            },
+            {
+                "username": "other-user4",
+                "email": "otheruser4@email.com",
+                "display_name": "other-user4",
+                "first_name": "",
+                "last_name": "",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 4
+            },
+            {
+                "username": "other-user5",
+                "email": "otheruser5@email.com",
+                "display_name": "other-user5",
+                "first_name": "",
+                "last_name": "",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 1
+            },
+            {
+                "username": "other-user8",
+                "email": "otheruser8@email.com",
+                "display_name": "other-user8",
+                "first_name": "",
+                "last_name": "",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 1
+            },
+            {
+                "username": "other-user9",
+                "email": "otheruser9@email.com",
+                "display_name": "other-user9",
+                "first_name": "",
+                "last_name": "",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 1
+            },
+            {
+                "username": "other-user6",
+                "email": "otheruser6@email.com",
+                "display_name": "other-user6",
+                "first_name": "",
+                "last_name": "",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 1
+            },
+            {
+                "username": "new_user",
+                "email": "newuser@email.com",
+                "display_name": "new user",
+                "first_name": "new",
+                "last_name": "user",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 1
+            },
+            {
+                "username": "demoname12",
+                "email": "demoname@dummy.com",
+                "display_name": "demo name12",
+                "first_name": "demo",
+                "last_name": "name12",
+                "middle_name": "",
+                "automate_username": "",
+                "connector": "",
+                "is_conflicting": false,
+                "action_ops": 2
+            }
+        ],
+        "orgs_users_associations": null
+    }
+}
