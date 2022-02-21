@@ -125,17 +125,21 @@ func insertUpdateSkipUser(serverUser []pipeline.User, automateUser []storage.Use
 	for _, sUser := range serverUser {
 
 		if autoMap[sUser.Username].InfraServerUsername != "" {
-
-			if autoMap[sUser.Username].InfraServerUsername == sUser.Username {
-				if autoMap[sUser.Username].InfraServerUsername == sUser.Username && autoMap[sUser.Username].Email == sUser.Email {
-					sUser.ActionOps = pipeline.Skip
-					parsedUsers = append(parsedUsers, sUser)
-
-				} else {
-					sUser.ActionOps = pipeline.Update
-					parsedUsers = append(parsedUsers, sUser)
-				}
+			emptyVal := pipeline.User{}
+			returnedVal := skipOrUpdate(autoMap, sUser)
+			if returnedVal != emptyVal {
+				parsedUsers = append(parsedUsers, returnedVal)
 			}
+			// if autoMap[sUser.Username].InfraServerUsername == sUser.Username {
+			// 	if autoMap[sUser.Username].InfraServerUsername == sUser.Username && autoMap[sUser.Username].Email == sUser.Email {
+			// 		sUser.ActionOps = pipeline.Skip
+			// 		parsedUsers = append(parsedUsers, sUser)
+
+			// 	} else {
+			// 		sUser.ActionOps = pipeline.Update
+			// 		parsedUsers = append(parsedUsers, sUser)
+			// 	}
+			// }
 			fmt.Println("UPDATE, SKIP", sUser.Username)
 		} else {
 			if sUser.Username == "pivotal" {
@@ -152,6 +156,22 @@ func insertUpdateSkipUser(serverUser []pipeline.User, automateUser []storage.Use
 	}
 
 	return parsedUsers
+}
+
+func skipOrUpdate(autoMap map[string]storage.User, sUser pipeline.User) pipeline.User {
+	if autoMap[sUser.Username].InfraServerUsername == sUser.Username {
+		if autoMap[sUser.Username].InfraServerUsername == sUser.Username && autoMap[sUser.Username].Email == sUser.Email {
+			sUser.ActionOps = pipeline.Skip
+			// parsedUsers = append(parsedUsers, sUser)
+			return sUser
+
+		} else {
+			sUser.ActionOps = pipeline.Update
+			// parsedUsers = append(parsedUsers, sUser)
+			return sUser
+		}
+	}
+	return pipeline.User{}
 }
 
 func deleteUser(serverUser []pipeline.User, automateUser []storage.User) []pipeline.User {
