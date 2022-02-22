@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path"
 
 	"parse_users/pipeline"
@@ -18,8 +19,8 @@ func main() {
 			UnzipFolder: "/home/dave/Downloads/backup",
 		},
 	}
-	output, _ := GetUsersForBackup(res)
-
+	output, err := GetUsersForBackup(res)
+	fmt.Println(err)
 	// Marshal
 	byte, _ := json.MarshalIndent(output, "", "    ")
 	ioutil.WriteFile("abc.json", byte, 7770)
@@ -31,13 +32,14 @@ func GetUsersForBackup(result pipeline.Result) (pipeline.Result, error) {
 
 	file := path.Join(result.Meta.UnzipFolder, "key_dump.json")
 
-	keyDumpByte, err := ioutil.ReadFile(file)
+	var keyDumps []pipeline.KeyDump
+
+	f, err := os.Open(file)
 	if err != nil {
 		return result, err
 	}
-
-	var keyDumps []pipeline.KeyDump
-	if err := json.Unmarshal(keyDumpByte, &keyDumps); err != nil {
+	err = json.NewDecoder(f).Decode(&keyDumps)
+	if err != nil {
 		return result, err
 	}
 
