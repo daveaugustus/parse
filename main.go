@@ -3,9 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
+	"path/filepath"
+	"time"
 
 	"parse_users/pipeline"
 	"parse_users/storage"
@@ -19,13 +20,31 @@ func main() {
 			UnzipFolder: "/home/dave/Downloads/backup",
 		},
 	}
-	output, err := GetUsersForBackup(res)
-	fmt.Println(err)
-	// Marshal
-	byte, _ := json.MarshalIndent(output, "", "    ")
-	ioutil.WriteFile("abc.json", byte, 7770)
+	Validate(res)
 
-	fmt.Println("No of lines: ", len(output.ParsedResult.Users))
+	// output, err := GetUsersForBackup(res)
+	// fmt.Println(err)
+	// // Marshal
+	// byte, _ := json.MarshalIndent(output, "", "    ")
+	// ioutil.WriteFile("abc.json", byte, 7770)
+
+	// fmt.Println("No of lines: ", len(output.ParsedResult.Users))
+}
+
+func Validate(result pipeline.Result) {
+	// Find under unzip folder where org folder exists
+	if err := filepath.Walk(result.Meta.UnzipFolder, func(path string, f os.FileInfo, err error) error {
+		fmt.Println(path, filepath.Dir(path))
+		if filepath.Base(path) == "organizations" {
+			result.Meta.UnzipFolder = filepath.Dir(path)
+			fmt.Println("Found Organization")
+		}
+		time.Sleep(time.Second)
+		return nil
+	}); err != nil {
+		fmt.Errorf("error: %s\n", err.Error())
+	}
+
 }
 
 func GetUsersForBackup(result pipeline.Result) (pipeline.Result, error) {
