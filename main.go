@@ -48,25 +48,25 @@ func Unzip(result pipeline.Result) (pipeline.Result, error) {
 		}
 
 		if err = os.MkdirAll(filepath.Dir(fpath), os.ModePerm); err != nil {
-			log.Errorf("cannot create directory for migration id: %s, %s", result.Meta.MigrationID, err.Error())
+			log.Errorf("cannot create dir for migration id: %s, %s", result.Meta.MigrationID, err.Error())
 			return result, err
 		}
 
 		outFile, err := os.OpenFile(fpath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, file.Mode())
 		if err != nil {
-			log.Errorf("cannot create a file for migration id: %s, %s", result.Meta.MigrationID, err.Error())
+			log.Errorf("cannot create dir for migration id: %s, %s", result.Meta.MigrationID, err.Error())
 			return result, err
 		}
 
 		readClose, err := file.Open()
 		if err != nil {
-			log.Errorf("cannot open file for migration id: %s, %s", result.Meta.MigrationID, err.Error())
+			log.Errorf("cannot create dir for migration id: %s, %s", result.Meta.MigrationID, err.Error())
 			return result, err
 		}
 
 		_, err = io.Copy(outFile, readClose)
 		if err != nil {
-			log.Errorf("cannot copy file for migration id: %s, %s", result.Meta.MigrationID, err.Error())
+			log.Errorf("cannot create dir for migration id: %s, %s", result.Meta.MigrationID, err.Error())
 			return result, err
 		}
 		_ = outFile.Close()
