@@ -82,41 +82,6 @@ func Unzip(result pipeline.Result) (pipeline.Result, error) {
 	return result, nil
 }
 
-func TraverseFiles(file *zip.File, result pipeline.Result) (pipeline.Result, error) {
-	var fpath string
-	var err error
-
-	// Creating the files in the target directory
-	if err = os.MkdirAll(filepath.Dir(fpath), os.ModePerm); err != nil {
-		log.Errorf("cannot create directory for migration id: %s, %s", result.Meta.MigrationID, err.Error())
-		return result, err
-	}
-
-	// The created file will be stored in
-	// outFile with permissions to write &/or truncate
-	outFile, err := os.OpenFile(fpath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, file.Mode())
-	if err != nil {
-		log.Errorf("cannot create a file for migration id: %s, %s", result.Meta.MigrationID, err.Error())
-		return result, err
-	}
-
-	readClose, err := file.Open()
-	if err != nil {
-		log.Errorf("cannot open file for migration id: %s, %s", result.Meta.MigrationID, err.Error())
-		return result, err
-	}
-
-	_, err = io.Copy(outFile, readClose)
-	if err != nil {
-		log.Errorf("cannot copy file for migration id: %s, %s", result.Meta.MigrationID, err.Error())
-		return result, err
-	}
-	_ = outFile.Close()
-	_ = readClose.Close()
-
-	return result, nil
-}
-
 func Validate(result pipeline.Result) {
 	// Find under unzip folder where org folder exists
 	if err := filepath.Walk(result.Meta.UnzipFolder, func(path string, f os.FileInfo, err error) error {
@@ -237,16 +202,6 @@ func insertUpdateSkipUser(serverUser []pipeline.User, automateUser []storage.Use
 			if returnedVal != emptyVal {
 				parsedUsers = append(parsedUsers, returnedVal)
 			}
-			// if autoMap[sUser.Username].InfraServerUsername == sUser.Username {
-			// 	if autoMap[sUser.Username].InfraServerUsername == sUser.Username && autoMap[sUser.Username].Email == sUser.Email {
-			// 		sUser.ActionOps = pipeline.Skip
-			// 		parsedUsers = append(parsedUsers, sUser)
-
-			// 	} else {
-			// 		sUser.ActionOps = pipeline.Update
-			// 		parsedUsers = append(parsedUsers, sUser)
-			// 	}
-			// }
 			fmt.Println("UPDATE, SKIP", sUser.Username)
 		} else {
 			if sUser.Username == "pivotal" {
