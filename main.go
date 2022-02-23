@@ -1,8 +1,10 @@
 package main
 
 import (
+	"archive/zip"
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"path"
 	"path/filepath"
@@ -17,18 +19,102 @@ import (
 func main() {
 	res := pipeline.Result{
 		Meta: pipeline.Meta{
-			UnzipFolder: "/home/dave/Downloads/backup",
+			ZipFile: "/home/dave/Downloads/backup.zip",
 		},
 	}
-	Validate(res)
 
-	// output, err := GetUsersForBackup(res)
-	// fmt.Println(err)
-	// // Marshal
-	// byte, _ := json.MarshalIndent(output, "", "    ")
-	// ioutil.WriteFile("abc.json", byte, 7770)
+	resut, err := Unzip(res)
+	if err != nil {
+		log.Error(err)
+	}
+	fmt.Println(resut.Meta.UnzipFolder)
+}
 
-	// fmt.Println("No of lines: ", len(output.ParsedResult.Users))
+func Unzip(result pipeline.Result) (pipeline.Result, error) {
+	var fpath string
+
+	reader, err := zip.OpenReader("/home/dave/Downloads/backup.zip")
+	if err != nil {
+		log.Errorf("cannot open reader migration id: %s, %s", result.Meta.MigrationID, err.Error())
+		return result, err
+	}
+
+	for _, file := range reader.File {
+		fpath = filepath.Join(filepath.Dir(result.Meta.ZipFile), file.Name)
+
+		if file.FileInfo().IsDir() {
+			err = os.MkdirAll(fpath, os.ModePerm)
+			if err != nil {
+				log.Errorf("cannot create dir for migration id: %s, %s", result.Meta.MigrationID, err.Error())
+			}
+			continue
+		}
+
+		if err = os.MkdirAll(filepath.Dir(fpath), os.ModePerm); err != nil {
+			log.Errorf("cannot create directory for migration id: %s, %s", result.Meta.MigrationID, err.Error())
+			return result, err
+		}
+
+		outFile, err := os.OpenFile(fpath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, file.Mode())
+		if err != nil {
+			log.Errorf("cannot create a file for migration id: %s, %s", result.Meta.MigrationID, err.Error())
+			return result, err
+		}
+
+		readClose, err := file.Open()
+		if err != nil {
+			log.Errorf("cannot open file for migration id: %s, %s", result.Meta.MigrationID, err.Error())
+			return result, err
+		}
+
+		_, err = io.Copy(outFile, readClose)
+		if err != nil {
+			log.Errorf("cannot copy file for migration id: %s, %s", result.Meta.MigrationID, err.Error())
+			return result, err
+		}
+		_ = outFile.Close()
+		_ = readClose.Close()
+	}
+
+	result.Meta.UnzipFolder = filepath.Dir(fpath)
+	_ = reader.Close()
+
+	return result, nil
+}
+
+func TraverseFiles(file *zip.File, result pipeline.Result) (pipeline.Result, error) {
+	var fpath string
+	var err error
+
+	// Creating the files in the target directory
+	if err = os.MkdirAll(filepath.Dir(fpath), os.ModePerm); err != nil {
+		log.Errorf("cannot create directory for migration id: %s, %s", result.Meta.MigrationID, err.Error())
+		return result, err
+	}
+
+	// The created file will be stored in
+	// outFile with permissions to write &/or truncate
+	outFile, err := os.OpenFile(fpath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, file.Mode())
+	if err != nil {
+		log.Errorf("cannot create a file for migration id: %s, %s", result.Meta.MigrationID, err.Error())
+		return result, err
+	}
+
+	readClose, err := file.Open()
+	if err != nil {
+		log.Errorf("cannot open file for migration id: %s, %s", result.Meta.MigrationID, err.Error())
+		return result, err
+	}
+
+	_, err = io.Copy(outFile, readClose)
+	if err != nil {
+		log.Errorf("cannot copy file for migration id: %s, %s", result.Meta.MigrationID, err.Error())
+		return result, err
+	}
+	_ = outFile.Close()
+	_ = readClose.Close()
+
+	return result, nil
 }
 
 func Validate(result pipeline.Result) {
